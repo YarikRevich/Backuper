@@ -1,9 +1,10 @@
 import os
 import subprocess
+import sys
 
 
-DIRTOCPFROM = "/var/snap/docker/common/var-lib-docker/volumes/massage/_data/*"
-DIRTOCPTO = "/backups"
+DIRTOCPFROM = sys.argv[1]
+DIRTOCPTO = sys.argv[2]
 
 def copyfiles():
     pipe = subprocess.Popen(["ls"], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
@@ -15,4 +16,7 @@ def copyfiles():
     subprocess.call([f"cp -r {DIRTOCPFROM} {DIRTOCPTO}"], shell=True)
 
 if __name__ == "__main__":
-    copyfiles()
+    if "--help" in sys.argv:
+        print("You have to put two params\n::The first one is from I should copy\::The second one is that place where it will be saved")
+    else:
+        copyfiles()
